@@ -19,16 +19,25 @@ public class UserServiceImpl implements UserService{
         if(user.isEmpty()){
             return Optional.empty();
         }
+        loggedInUser = user.get();
         return user;
     }
 
     @Override
-    public Optional<User> signOut() {
-        return Optional.empty();
+    public void signOut() {
+        loggedInUser = null;
     }
 
     @Override
     public Optional<User> describe() {
-        return Optional.empty();
+        return Optional.ofNullable(loggedInUser);
+    }
+
+    @Override
+    public boolean isAdmin() {
+         if(Optional.ofNullable(loggedInUser).isPresent()) {
+            return loggedInUser.getRole() == User.Role.ADMIN;
+         }
+         return false;
     }
 }

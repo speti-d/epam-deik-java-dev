@@ -6,7 +6,9 @@ public interface UserService {
 
     Optional<User> singIn(String username, String password);
 
-    Optional<User> signOut();
+    void signOut();
 
     Optional<User> describe();
+
+    boolean isAdmin();
 }

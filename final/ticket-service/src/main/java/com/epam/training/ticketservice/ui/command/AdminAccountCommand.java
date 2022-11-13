@@ -24,7 +24,7 @@ public class AdminAccountCommand {
 
     @ShellMethod(key = "sign out")
     public void signOut(){
-        Optional<User> user = userService.signOut();
+        userService.signOut();
     }
 
     @ShellMethod(key = "describe account")
@@ -33,6 +33,6 @@ public class AdminAccountCommand {
         if(user.isEmpty()) {
             return "You are not signed in";
         }
-        return String.format("Signed in with privileged account '%s'", user);
+        return String.format("Signed in with privileged account '%s'", user.get().getUsername());
     }
 }
