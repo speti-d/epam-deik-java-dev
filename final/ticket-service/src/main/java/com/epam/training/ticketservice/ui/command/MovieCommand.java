@@ -21,31 +21,30 @@ public class MovieCommand {
 
     @ShellMethod(key = "create movie")
     @ShellMethodAvailability("isAdmin")
-    public void createMovie(String title, String genre, Integer lengthInMinutes){
+    public void createMovie(String title, String genre, Integer lengthInMinutes) {
         movieService.createMovie(title, genre, lengthInMinutes);
     }
 
     @ShellMethod(key = "update movie")
     @ShellMethodAvailability("isAdmin")
-    public void updateMovie(String title, String genre, Integer lengthInMinutes){
+    public void updateMovie(String title, String genre, Integer lengthInMinutes) {
         movieService.updateMovie(title, genre, lengthInMinutes);
     }
 
     @ShellMethod(key = "delete movie")
     @ShellMethodAvailability("isAdmin")
-    public void deleteMovie(String title){
+    public void deleteMovie(String title) {
         movieService.deleteMovie(title);
     }
 
     @ShellMethod(key = "list movies")
-    public String listMovies(){
+    public String listMovies() {
         List<Movie> movieList = movieService.listMovies();
-        if (movieList.isEmpty()){
+        if (movieList.isEmpty()) {
             return "There are no movies at the moment";
         }
         return movieList.stream()
-                .map(movie ->
-                {
+                .map(movie -> {
                     return String.format("%s (%s, %d minutes)",
                             movie.getTitle(), movie.getGenre(), movie.getLengthInMinutes());
                 })
@@ -53,7 +52,7 @@ public class MovieCommand {
     }
 
 
-    public Availability isAdmin(){
+    public Availability isAdmin() {
         return userService.isAdmin()
                 ? Availability.available()
                 : Availability.unavailable("you are not an Admin");

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MovieServiceImpl implements MovieService{
+public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
 
@@ -20,7 +20,7 @@ public class MovieServiceImpl implements MovieService{
     @Override
     public void deleteMovie(String title) {
         Optional<Movie> movieToDelete = movieRepository.findById(title);
-        if(movieToDelete.isEmpty()){
+        if (movieToDelete.isEmpty()) {
             //TODO: throw error?
         }
         movieRepository.delete(movieToDelete.get());
@@ -29,7 +29,7 @@ public class MovieServiceImpl implements MovieService{
     @Override
     public void updateMovie(String title, String genre, Integer lengthInMinutes) {
         Optional<Movie> movieToUpdate = movieRepository.findById(title);
-        if(movieToUpdate.isEmpty()){
+        if (movieToUpdate.isEmpty()) {
             //TODO: Throw exception maybe?
         }
         Movie updatedMovie = movieToUpdate.get();

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Optional<User> singIn(String username, String password) {
         Optional<User> user = userRepository.findByUsernameAndPassword(username, password);
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             return Optional.empty();
         }
         loggedInUser = user.get();
@@ -35,9 +35,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean isAdmin() {
-         if(Optional.ofNullable(loggedInUser).isPresent()) {
+        if (Optional.ofNullable(loggedInUser).isPresent()) {
             return loggedInUser.getRole() == User.Role.ADMIN;
-         }
-         return false;
+        }
+        return false;
     }
 }
