@@ -21,25 +21,31 @@ public class MovieServiceImpl implements MovieService {
     public void deleteMovie(String title) {
         Optional<Movie> movieToDelete = movieRepository.findById(title);
         if (movieToDelete.isEmpty()) {
-            //TODO: throw error?
+            throw new IllegalArgumentException("No such Movie exists.");
+        } else {
+            movieRepository.delete(movieToDelete.get());
         }
-        movieRepository.delete(movieToDelete.get());
     }
 
     @Override
     public void updateMovie(String title, String genre, Integer lengthInMinutes) {
         Optional<Movie> movieToUpdate = movieRepository.findById(title);
         if (movieToUpdate.isEmpty()) {
-            //TODO: Throw exception maybe?
+            throw new IllegalArgumentException("No such Movie exists.");
+        } else {
+            Movie updatedMovie = movieToUpdate.get();
+            updatedMovie.setGenre(genre);
+            updatedMovie.setLengthInMinutes(lengthInMinutes);
+            movieRepository.save(updatedMovie);
         }
-        Movie updatedMovie = movieToUpdate.get();
-        updatedMovie.setGenre(genre);
-        updatedMovie.setLengthInMinutes(lengthInMinutes);
-        movieRepository.save(updatedMovie);
     }
 
     @Override
     public void createMovie(String title, String genre, Integer lengthInMinutes) {
-        movieRepository.save(new Movie(title, genre, lengthInMinutes));
+        if(movieRepository.existsById(title)) {
+            throw new IllegalArgumentException("Movie with this title already exists.");
+        } else {
+            movieRepository.save(new Movie(title, genre, lengthInMinutes));
+        }
     }
 }
