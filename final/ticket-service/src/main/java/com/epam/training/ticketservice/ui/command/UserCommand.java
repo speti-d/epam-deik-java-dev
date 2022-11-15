@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @ShellComponent
 @AllArgsConstructor
-public class AdminAccountCommand {
+public class UserCommand {
 
     private final UserService userService;
 
@@ -19,7 +19,7 @@ public class AdminAccountCommand {
         if (user.isEmpty()) {
             return "Login failed due to incorrect credentials";
         }
-        return "";
+        return String.format("Logged in as %s.", user.get().getUsername());
     }
 
     @ShellMethod(key = "sign out")

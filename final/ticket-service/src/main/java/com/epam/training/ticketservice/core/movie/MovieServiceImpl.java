@@ -42,7 +42,7 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void createMovie(String title, String genre, Integer lengthInMinutes) {
-        if(movieRepository.existsById(title)) {
+        if (movieRepository.existsById(title)) {
             throw new IllegalArgumentException("Movie with this title already exists.");
         } else {
             movieRepository.save(new Movie(title, genre, lengthInMinutes));
