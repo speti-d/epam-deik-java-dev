@@ -13,7 +13,7 @@ public class UserCommand {
 
     private final UserService userService;
 
-    @ShellMethod(key = "sign in privileged")
+    @ShellMethod(key = "sign in privileged", value = "Sign into an existing account")
     public String signInPrivileged(String username, String password) {
         Optional<User> user =  userService.singIn(username, password);
         if (user.isEmpty()) {
@@ -22,12 +22,12 @@ public class UserCommand {
         return String.format("Logged in as %s.", user.get().getUsername());
     }
 
-    @ShellMethod(key = "sign out")
+    @ShellMethod(key = "sign out", value = "Sign out of currently logged in account")
     public void signOut() {
         userService.signOut();
     }
 
-    @ShellMethod(key = "describe account")
+    @ShellMethod(key = "describe account", value = "Describe the currently logged in account")
     public String describeAccount() {
         Optional<User> user = userService.describe();
         if (user.isEmpty()) {
