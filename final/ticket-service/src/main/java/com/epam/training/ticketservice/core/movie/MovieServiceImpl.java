@@ -48,4 +48,13 @@ public class MovieServiceImpl implements MovieService {
             movieRepository.save(new Movie(title, genre, lengthInMinutes));
         }
     }
+
+    @Override
+    public Movie getMovieByTitle(String movieTitle) {
+        Optional<Movie> movieToGet = movieRepository.findById(movieTitle);
+        if (movieToGet.isEmpty()) {
+            throw new IllegalArgumentException("No such Movie exists");
+        }
+        return movieToGet.get();
+    }
 }

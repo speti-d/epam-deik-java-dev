@@ -10,4 +10,6 @@ public interface MovieService {
     void updateMovie(String title, String genre, Integer lengthInMinutes);
 
     void createMovie(String title, String genre, Integer lengthInMinutes);
+
+    Movie getMovieByTitle(String movieTitle);
 }

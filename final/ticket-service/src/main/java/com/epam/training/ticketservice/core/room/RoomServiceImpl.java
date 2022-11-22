@@ -51,6 +51,15 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.findAll();
     }
 
+    @Override
+    public Room getRoomByName(String roomName) {
+        Optional<Room> roomToGet = roomRepository.findById(roomName);
+        if (roomToGet.isEmpty()) {
+            throw new IllegalArgumentException("No such Room exists");
+        }
+        return roomToGet.get();
+    }
+
     /**
      * Checks if a room with the given parameters would be reasonable.
      * Throws IllegalArgumentException if that is not the case.
