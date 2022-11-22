@@ -23,7 +23,7 @@ public class Room {
     private Integer colCount;
 
     public Integer getChairCount() {
-        return rowCount*colCount;
+        return rowCount * colCount;
     }
 
 }

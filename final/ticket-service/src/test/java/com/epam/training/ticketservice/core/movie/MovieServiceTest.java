@@ -29,6 +29,16 @@ public class MovieServiceTest {
                 -> underTest.createMovie("Amogus", "Horror", 99));
     }
 
+    @Test
+    void testUpdateMovieShouldThrowExceptionWhenMovieDoesntExist() {
+        //Given
+        Mockito.when(mockRepository.existsById(ArgumentMatchers.anyString())).thenReturn(false);
+
+        //When & Then
+        Assertions.assertThrows(IllegalArgumentException.class , ()
+                -> underTest.updateMovie("amogus", "Horror", 100));
+    }
+
 
     @Test
     void testDeleteMovieShouldThrowExceptionWhenMovieDoesntExist() {

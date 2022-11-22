@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class RoomServiceImpl implements RoomService{
+public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
@@ -17,6 +17,7 @@ public class RoomServiceImpl implements RoomService{
         if (roomRepository.existsById(roomName)) {
             throw new IllegalArgumentException("Room with this name already exists.");
         } else {
+            checkValidRoom(rowCount, colCount);
             roomRepository.save(new Room(roomName, rowCount, colCount));
         }
     }
@@ -27,6 +28,7 @@ public class RoomServiceImpl implements RoomService{
         if (roomToUpdate.isEmpty()) {
             throw new IllegalArgumentException("No such Room exists.");
         } else {
+            checkValidRoom(rowCount, colCount);
             Room updatedRoom = roomToUpdate.get();
             updatedRoom.setRowCount(rowCount);
             updatedRoom.setColCount(colCount);
@@ -47,5 +49,15 @@ public class RoomServiceImpl implements RoomService{
     @Override
     public List<Room> listRooms() {
         return roomRepository.findAll();
+    }
+
+    /**
+     * Checks if a room with the given parameters would be reasonable.
+     * Throws IllegalArgumentException if that is not the case.
+     */
+    private void checkValidRoom(Integer row, Integer col) {
+        if (!(row > 0 && col > 0)) {
+            throw new IllegalArgumentException("You can't create a room with these parameters.");
+        }
     }
 }

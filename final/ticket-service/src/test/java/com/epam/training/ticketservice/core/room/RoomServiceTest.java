@@ -3,6 +3,8 @@ package com.epam.training.ticketservice.core.room;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
@@ -25,6 +27,36 @@ public class RoomServiceTest {
         //When & Then
         Assertions.assertThrows(IllegalArgumentException.class , ()
                 -> undertest.createRoom("Room1", 5, 5));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            " 0,    0",
+            " 0,    1",
+            " 1,    0"
+    })
+    void testCreateShouldThrowExceptionWhenRoomSizeIsInvalid(int col, int row) {
+        //Given
+        Mockito.when(mockRepository.existsById(ArgumentMatchers.anyString())).thenReturn(false);
+
+        //When & Then
+        Assertions.assertThrows(IllegalArgumentException.class , ()
+                -> undertest.createRoom("Room1", col, row));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            " 0,    0",
+            " 0,    1",
+            " 1,    0"
+    })
+    void testUpdateShouldThrowExceptionWhenRoomSizeIsInvalid(int col, int row) {
+    //Given
+        Mockito.when(mockRepository.existsById(ArgumentMatchers.anyString())).thenReturn(true);
+
+    //When & Then
+        Assertions.assertThrows(IllegalArgumentException.class , ()
+            -> undertest.updateRoom("Room1", col, row));
     }
 
     @Test

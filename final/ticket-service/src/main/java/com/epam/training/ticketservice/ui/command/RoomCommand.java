@@ -9,7 +9,6 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,13 +20,13 @@ public class RoomCommand {
 
     @ShellMethod(key = "create room", value = "Create a new Room")
     @ShellMethodAvailability("isAdmin")
-    public void createRoom(String roomName, @Min(1) Integer rowCount, @Min(1) Integer colCount) {
+    public void createRoom(String roomName, Integer rowCount, Integer colCount) {
         roomService.createRoom(roomName, rowCount, colCount);
     }
 
     @ShellMethod(key = "update room", value = "Update an existing Room")
     @ShellMethodAvailability("isAdmin")
-    public void updateRoom(String roomName, @Min(1) Integer rowCount, @Min(1) Integer colCount) {
+    public void updateRoom(String roomName, Integer rowCount, Integer colCount) {
         roomService.updateRoom(roomName, rowCount, colCount);
     }
 
@@ -45,7 +44,7 @@ public class RoomCommand {
         } else {
             return roomList.stream()
                     .map(room -> String
-                            .format("Room %s with %d seats, %d rows and %d columns ",
+                            .format("Room %s with %d seats, %d rows and %d columns",
                                     room.getRoomName(),
                                     room.getChairCount(),
                                     room.getRowCount(),
@@ -57,4 +56,5 @@ public class RoomCommand {
     public Availability isAdmin() {
         return commandUtils.isAdmin();
     }
+
 }
