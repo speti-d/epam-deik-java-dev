@@ -22,8 +22,8 @@ public class ScreeningCommand {
 
     @ShellMethod(key = "create screening")
     @ShellMethodAvailability("isAdmin")
-    public void createScreening(String movieTitle, String roomName, String screeningTime) {
-        screeningService.createScreening(movieTitle, roomName, makeLocalDateTime(screeningTime));
+    public String createScreening(String movieTitle, String roomName, String screeningTime) {
+        return screeningService.createScreening(movieTitle, roomName, makeLocalDateTime(screeningTime));
     }
 
     @ShellMethod(key = "delete screening")

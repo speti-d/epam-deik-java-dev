@@ -1,7 +1,6 @@
 package com.epam.training.ticketservice.core.movie;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -12,12 +11,7 @@ public class MovieServiceTest {
 
     private final MovieRepository mockRepository = Mockito.mock(MovieRepository.class);
 
-    private MovieService underTest;
-
-    @BeforeEach
-    void initBeforeEach() {
-        underTest = new MovieServiceImpl(mockRepository);
-    }
+    private final MovieService underTest = new MovieServiceImpl(mockRepository);
 
     @Test
     void testCreateMovieShouldThrowExceptionWhenMovieAlreadyExists() {
