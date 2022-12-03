@@ -42,10 +42,10 @@ public class ScreeningServiceImpl implements ScreeningService {
                     }
                 })
                 .anyMatch(existingScreening -> {
-            return checkOverlap(screeningToSave, existingScreening)
-                    || checkOverlapBreak(screeningToSave, existingScreening);
-        })) {
-
+                    return checkOverlap(screeningToSave, existingScreening)
+                        || checkOverlapBreak(screeningToSave, existingScreening);
+                })) {
+            return result.get();
         } else {
             screeningRepository.save(screeningToSave);
             result.set(String.format("Successfully created Screening: %s", screeningToSave));
