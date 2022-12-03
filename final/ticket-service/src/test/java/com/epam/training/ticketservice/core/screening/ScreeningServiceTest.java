@@ -104,7 +104,9 @@ public class ScreeningServiceTest {
                         ArgumentMatchers.any()))
                 .thenReturn(Optional.of(List.of(existingScreening)));
         //When
-        Assertions.assertEquals("There is an overlapping screening" ,underTest.createScreening("Sajt the movie", "szoba", filmVetitese) );
+        Assertions.assertThrows(IllegalArgumentException.class ,() -> {
+            underTest.createScreening("Sajt the movie", "szoba", filmVetitese);
+        } );
         //Then
         Mockito.verify(screeningRepository).findLastBetweenByRoom(
                 ArgumentMatchers.any(),
@@ -132,8 +134,9 @@ public class ScreeningServiceTest {
                         ArgumentMatchers.any()))
                 .thenReturn(Optional.of(List.of(existingScreening)));
         //When
-        Assertions.assertEquals("This would start in the break period after another screening in this room",
-                underTest.createScreening("Sajt the movie", "szoba", filmVetitese) );
+        Assertions.assertThrows(IllegalArgumentException.class ,() -> {
+            underTest.createScreening("Sajt the movie", "szoba", filmVetitese);
+        } );
         //Then
         Mockito.verify(screeningRepository).findLastBetweenByRoom(
                 ArgumentMatchers.any(),

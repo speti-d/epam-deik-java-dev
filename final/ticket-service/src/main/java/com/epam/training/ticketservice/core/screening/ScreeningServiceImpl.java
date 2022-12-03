@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -21,10 +20,9 @@ public class ScreeningServiceImpl implements ScreeningService {
     private final RoomService roomService;
 
     @Override
-    public String createScreening(String movieTitle, String roomName, LocalDateTime screeningTime) {
+    public void createScreening(String movieTitle, String roomName, LocalDateTime screeningTime) {
         Movie movie = movieService.getMovieByTitle(movieTitle);
         Room room = roomService.getRoomByName(roomName);
-        AtomicReference<String> result = new AtomicReference<>();
         Screening screeningToSave = new Screening(movie, room, screeningTime);
         Optional<List<Screening>> listOfScreenings = screeningRepository.findLastBetweenByRoom(
                 room,
@@ -32,26 +30,18 @@ public class ScreeningServiceImpl implements ScreeningService {
                 screeningToSave.getEndOfScreening());
         if (listOfScreenings.isEmpty()) {
             screeningRepository.save(screeningToSave);
-            result.set(String.format("Successfully created Screening: %s", screeningToSave));
-        } else if (listOfScreenings.get().stream()
-                .peek(existingScreening -> {
-                    if (checkOverlap(screeningToSave, existingScreening)) {
-                        result.set("There is an overlapping screening");
-                    } else if (checkOverlapBreak(screeningToSave, existingScreening)) {
-                        result.set("This would start in the break period after another screening in this room");
-                    }
-                })
-                .anyMatch(existingScreening -> {
-                    return checkOverlap(screeningToSave, existingScreening)
-                        || checkOverlapBreak(screeningToSave, existingScreening);
-                })) {
-            return result.get();
         } else {
+            for (Screening existingScreening:
+                 listOfScreenings.get()) {
+                if (checkOverlap(screeningToSave, existingScreening)) {
+                    throw new IllegalArgumentException("There is an overlapping screening");
+                } else if (checkOverlapBreak(screeningToSave, existingScreening)) {
+                    throw new IllegalArgumentException(
+                            "This would start in the break period after another screening in this room");
+                }
+            }
             screeningRepository.save(screeningToSave);
-            result.set(String.format("Successfully created Screening: %s", screeningToSave));
         }
-        return result.get();
-
     }
 
     public boolean checkOverlap(Screening newScreening, Screening existingScreening) {
